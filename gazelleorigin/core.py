@@ -109,7 +109,7 @@ class GazelleAPI:
                 "Directory": torrent["filePath"],
                 "Size": torrent["size"],
                 "File count": torrent["fileCount"],
-                "Info hash": torrent.get("infoHash", "Unknown"),  # OPS fallback
+                "Info hash": torrent.get("infoHash") or hash or "Unknown",  # OPS fallback
                 "Uploaded": torrent["time"],
                 "Permalink": f"{self.base}/torrents.php?torrentid={torrent['id']}",
             }.items()
