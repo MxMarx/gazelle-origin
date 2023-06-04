@@ -85,7 +85,7 @@ Install using `pip`:
 Then add your tracker API key (see [Obtaining Your API Key](https://github.com/x1ppy/gazelle-origin#obtaining-your-api-key)) to `~/.bashrc` or equivalent:
 
     export RED_API_KEY=<api_key>
-    export OPS_SESSION_COOKIE=<session_cookie>
+    export OPS_API_KEY=<api_key>
 
 Though not required, it's also recommended that you add a default tracker to `~/.bashrc` or equivalent (see [Supported Trackers](#supported-trackers)):
 
@@ -99,7 +99,8 @@ Finally, see [Integration](#torrent-clients) for calling `gazelle-origin` automa
 
 Obtaining Your API Key
 ---------------------
-`gazelle-origin` requires an API key or an session cookie to make API requests. To obtain your API key:
+`gazelle-origin` requires an API key to make API requests. You can add your keys `OPS_API_KEY` or `RED_API_KEY` environment variables, or pass the string with the `--api-key` flag.
+To obtain your API key:
 
 ### redacted.ch
 * Go to your profile and select Access Settings on the right side
@@ -116,18 +117,12 @@ After saving, you should see a Torrents API key like this:
 ![after saving](docs/api-done.png "After saving")
 
 ### orpheus.network
+* Go to your profile and select Settings.
+* Scroll down to API Keys at the bottom of the Access Settings section 
+* Click "Click here to create a new token"
+* Enter "gazelle-origin" as the name, and click generate
 
-(Instructions extracted from Jackett)
-
-* Login to this tracker with your browser
-* Open the DevTools panel by pressing F12
-* Select the Network tab
-* Click on the Doc button
-* Refresh the page by pressing F5
-* Select the Headers tab
-* Find 'cookie:' in the Request Headers section
-
-Once you got the cookie string, copy it and add it to your `OPS_SESSION_COOKIE` environment variable. You can also pass the string with the `--api-key` flag.
+Once you get your API key, save it somewhere safe, as you won't be able to view it again after exiting the page.
 
 Usage
 -----
@@ -220,6 +215,17 @@ Integration
 
 `gazelle-origin` is best used when called automatically in your torrent client when a download finishes. Use the
 following snippets to integrate `gazelle-origin` into your client. If your client isn't listed, please file a PR!
+
+#### Docker torrent clients
+
+If you use a linuxserver docker image such as [linuxserver/rutorrent](https://hub.docker.com/r/linuxserver/rutorrent) or [linuxserver/qbittorrent](https://hub.docker.com/r/linuxserver/qbittorrent), you can add these environmental variables to install gazelle-origin in the docker container.
+
+~~~
+environment:
+  - DOCKER_MODS=linuxserver/mods:universal-package-install
+  - INSTALL_PACKAGES=git
+  - INSTALL_PIP_PACKAGES=git+https://github.com/x1ppy/gazelle-origin
+~~~
 
 #### rtorrent
 
