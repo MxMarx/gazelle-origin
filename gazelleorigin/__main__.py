@@ -7,7 +7,7 @@ import subprocess
 import sys
 import yaml
 from hashlib import sha1
-from . import GazelleAPI, GazelleAPIError, Orpheus
+from . import GazelleAPI, GazelleAPIError
 
 
 EXIT_CODES = {
@@ -21,14 +21,14 @@ EXIT_CODES = {
     'input-error': 10
 }
 
-_TRACKER_TOKENS = ("RED_API_KEY", "OPS_SESSION_COOKIE")
+_TRACKER_TOKENS = ("RED_API_KEY", "OPS_API_KEY")
 _VALID_TRACKERS = ("red", "flacsfor.me", "ops", "opsfet.ch")
 
 _HANDLERS = {
-        "red": {"class": GazelleAPI, "token_key": "RED_API_KEY"},
-        "flacsfor.me": {"class": GazelleAPI, "token_key": "RED_API_KEY"},
-        "ops": {"class": Orpheus, "token_key": "OPS_SESSION_COOKIE"},
-        "opsfet.ch": {"class": Orpheus, "token_key": "OPS_SESSION_COOKIE"}
+        "red": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.ch"},
+        "flacsfor.me": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.ch"},
+        "ops": {"class": GazelleAPI, "token_key": "OPS_API_KEY", "base_url": "https://orpheus.network"},
+        "opsfet.ch": {"class": GazelleAPI, "token_key": "OPS_API_KEY", "base_url": "https://orpheus.network"}
         }
 
 
@@ -109,7 +109,7 @@ def main():
         environment['api_key'] = args.api_key
 
     elif any(os.environ.get(t_token) for t_token in _TRACKER_TOKENS):
-        for t_token in _TRACKER_TOKENS: # RED_API_KEY, OPS_SESSION_COOKIE
+        for t_token in _TRACKER_TOKENS: # RED_API_KEY, OPS_API_KEY
             handler = _HANDLERS[environment['tracker']]
             if handler.get("token_key") == t_token:
                 environment['api_key'] = os.environ.get(t_token)
@@ -123,7 +123,7 @@ def main():
     handler_class = _HANDLERS[environment['tracker']]["class"]
 
     try:
-        api = handler_class(environment['api_key'])
+        api = handler_class(environment['api_key'], _HANDLERS[environment['tracker']]['base_url'])
     except GazelleAPIError as e:
         print('Error initializing Gazelle API client')
         sys.exit(EXIT_CODES[e.code])

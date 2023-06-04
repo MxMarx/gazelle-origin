@@ -29,8 +29,8 @@ class GazelleAPIError(Exception):
 
 # GazelleAPI code is based off of REDbetter (https://github.com/Mechazawa/REDBetter-crawler).
 class GazelleAPI:
-    def __init__(self, api_key):
-        self.base = "https://redacted.ch"
+    def __init__(self, api_key, base_url="https://redacted.ch"):
+        self.base = base_url
         self.session = requests.Session()
         self.session.headers.update(headers)
         self.session.headers.update({"Authorization": api_key})
