@@ -25,8 +25,8 @@ _TRACKER_TOKENS = ("RED_API_KEY", "OPS_API_KEY")
 _VALID_TRACKERS = ("red", "flacsfor.me", "ops", "opsfet.ch")
 
 _HANDLERS = {
-        "red": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.ch"},
-        "flacsfor.me": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.ch"},
+        "red": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.sh"},
+        "flacsfor.me": {"class": GazelleAPI, "token_key": "RED_API_KEY", "base_url": "https://redacted.sh"},
         "ops": {"class": GazelleAPI, "token_key": "OPS_API_KEY", "base_url": "https://orpheus.network"},
         "opsfet.ch": {"class": GazelleAPI, "token_key": "OPS_API_KEY", "base_url": "https://orpheus.network"}
         }
